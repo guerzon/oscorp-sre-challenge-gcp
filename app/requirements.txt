@@ -1,0 +1,5 @@
+Flask==2.1.0
+markupsafe==2.0.1
+mysql-connector-python
+prometheus_client
+google-cloud-secret-manager
