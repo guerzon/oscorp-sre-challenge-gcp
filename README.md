@@ -48,19 +48,63 @@ You do not need to create every resource from scratch; we are supplying several 
   - A sample dataset
   - A template for the Cloud Function used to import data
 
+#### Lester's note
+
+Create the resources to simulate the pre-created resources.
+
+Create the Cloud Storage Bucket:
+
+```bash
+gcloud storage buckets create gs://gcp-review-playground-terraform --location asia
+```
+
+Create the Cloud DNS zone:
+
+```bash
+gcloud dns managed-zones create challenge --dns-name="challenge.sreafterhours.dev" --visibility="public" --description="Challenge DNS zone"
+```
+
+Delete the subdomain to my registrar:
+
+```txt
+❯ gcloud dns managed-zones describe challenge
+cloudLoggingConfig:
+  kind: dns#managedZoneCloudLoggingConfig
+creationTime: '2025-06-21T13:17:07.851Z'
+description: Challenge DNS zone
+dnsName: challenge.sreafterhours.dev.
+id: '1885748631362701244'
+kind: dns#managedZone
+name: challenge
+nameServers:
+- ns-cloud-e1.googledomains.com.
+- ns-cloud-e2.googledomains.com.
+- ns-cloud-e3.googledomains.com.
+- ns-cloud-e4.googledomains.com.
+visibility: public
+
+❯ dig challenge.sreafterhours.dev -t NS +short
+ns-cloud-e3.googledomains.com.
+ns-cloud-e4.googledomains.com.
+ns-cloud-e1.googledomains.com.
+ns-cloud-e2.googledomains.com.
+
+❯
+```
+
 ### Infrastructure Task
 
 - Using Terraform, provision a minimal infrastructure that includes the following components:
 
-    - One VPC network with both private and public subnets spanning at least two zones for hosting the application
+    - One VPC network for hosting the application
     - Cloud Function setup for data import
-    - A GKE cluster deployed in the private subnets of the VPC network
+    - A GKE cluster
     - Full HTTPS configuration to securely expose the application to the internet (only on the HTTPS port and restricted to whitelisted IPs)
         - An HTTP(S) Load Balancer in front of the GKE cluster
         - DNS hostname for the Load Balancer
         - Google-managed SSL certificate
         - Optional: Minimal Cloud Armor policy using Google-managed rules
-    - A separate VPC network (or subnet) with private and public subnets across at least two zones for the database
+    - A separate VPC network for the database
     - A Cloud SQL (MySQL) instance, only accessible from the GKE network
     - A Cloud Storage bucket configured for storing files containing highly sensitive data
     - Consider the sensitive nature of the data when arranging code and storage (utilize Cloud KMS for encryption where possible, and apply restrictive IAM policies and ACLs)

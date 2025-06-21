@@ -1,5 +1,4 @@
 ### Uncomment the lines below and addthe correct name ofthe state bucket 
-#bucket  = "CHANGEME"
-#key     = "asia-east1.tfstate"
-#region  = "asia-east1"
+bucket = "gcp-review-playground-terraform"
+prefix = "asia-east1.tfstate"
 #encrypt = true
