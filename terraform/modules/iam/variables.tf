@@ -12,19 +12,19 @@ variable "assume_role_policy" {
 }
 
 variable "path" {
-  type = string
+  type        = string
   description = "The path to the role"
-  default = "/"
+  default     = "/"
 }
 
 variable "custom_iam_policies" {
   description = "The custom IAM policies to be attached with the IAM"
-  type        = list(object({
-    name = string
-    description = string
+  type = list(object({
+    name            = string
+    description     = string
     policy_document = string
   }))
-  default     = []
+  default = []
 }
 
 variable "managed_iam_policies" {

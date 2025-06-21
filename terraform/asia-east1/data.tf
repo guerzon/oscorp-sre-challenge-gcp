@@ -3,8 +3,8 @@
 # Data definitions
 ##################################################################################
 
-data "aws_availability_zones" "available" {}
-data "aws_caller_identity" "current" {}
+# data "aws_availability_zones" "available" {}
+data "google_client_openid_userinfo" "current" {}
 
 ##################################################################################
 # ACCESS REMOTE STATE
@@ -13,8 +13,7 @@ data "aws_caller_identity" "current" {}
 data "terraform_remote_state" "global" {
   backend = "gcs"
   config = {
-    bucket         = var.state_bucket
-    key            = var.global_state_key
-    region         = var.region
+    bucket = var.state_bucket
+    prefix = var.global_state_key
   }
 }

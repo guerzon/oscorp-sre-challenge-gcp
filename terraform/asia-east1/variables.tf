@@ -6,7 +6,7 @@ variable "region" {
   default     = "asia-east1"
 }
 
-# this is environment specific, check on Cloud Storage for the name
+# # this is environment specific, check on Cloud Storage for the name
 variable "state_bucket" {
   description = "The GCS bucket where the state files are stored"
   type        = string
@@ -24,29 +24,39 @@ variable "environment" {
   type        = string
 }
 
-variable "tags" {
+variable "labels" {
   description = "Tags for all resources"
   type        = map(string)
 }
 
-variable "create_eks_cluster" {
-  description = "Flag to enable / disable the cluster creation"
-  type        = bool
-  default     = false
-}
-
-variable "eks_cluster_name" {
+variable "gke_cluster_name" {
   type        = string
-  description = "Name of the EKS cluster"
+  description = "Name of the GKE cluster"
 }
 
-variable "eks_cluster_version" {
+variable "gke_cluster_version" {
   type        = string
   description = "Kubernetes cluster version"
   default     = "1.22"
 }
 
-variable "bastion_host_whitelist" {
-  type        = list(string)
-  description = "List of IPs allowed to access bastion host"
+variable "node_group_instance_type" {
+  type        = string
+  description = "Instance type for the GKE node group"
+  default     = "e2-medium"
+}
+
+variable "node_locations" {
+  type    = list(string)
+  default = ["asia-east1-a", "asia-east1-b", "asia-east1-c"]
+}
+
+# variable "bastion_host_whitelist" {
+#   type        = list(string)
+#   description = "List of IPs allowed to access bastion host"
+# }
+
+variable "project_id" {
+  description = "GCP project ID"
+  type        = string
 }
